@@ -34,7 +34,7 @@ interface ISpaceStation {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) external;
+    ) external payable;
 
     function claimBatch(
         uint256 _cid,
@@ -43,7 +43,7 @@ interface ISpaceStation {
         uint256[] calldata _powahArr,
         address _mintTo,
         bytes calldata _signature
-    ) external;
+    ) external payable;
 
     function claimCapped(
         uint256 _cid,
@@ -53,7 +53,7 @@ interface ISpaceStation {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) external;
+    ) external payable;
 
     function claimBatchCapped(
         uint256 _cid,
@@ -63,7 +63,7 @@ interface ISpaceStation {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) external;
+    ) external payable;
 
     function forge(
         uint256 _cid,
@@ -73,5 +73,5 @@ interface ISpaceStation {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) external;
+    ) external payable;
 }

@@ -23,6 +23,7 @@ import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {EIP712} from "@openzeppelin/contracts/drafts/EIP712.sol";
 import {ECDSA} from "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import {ISpaceStation} from "../interfaces/ISpaceStation.sol";
 import {IStarNFT} from "../interfaces/IStarNFT.sol";
 
 /**
@@ -31,7 +32,7 @@ import {IStarNFT} from "../interfaces/IStarNFT.sol";
  *
  * Campaign contract that allows privileged DAOs to initiate campaigns for members to claim StarNFTs.
  */
-contract SpaceStationV2 is EIP712 {
+contract SpaceStationV2 is EIP712, ISpaceStation {
     using Address for address;
     using SafeMath for uint256;
 
@@ -173,7 +174,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) public payable onlyNoPaused {
+    ) external payable override onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(
             _verify(
@@ -195,7 +196,7 @@ contract SpaceStationV2 is EIP712 {
         uint256[] calldata _powahArr,
         address _mintTo,
         bytes calldata _signature
-    ) public payable onlyNoPaused {
+    ) external payable override onlyNoPaused {
         require(
             _dummyIdArr.length > 0,
             "Array(_dummyIdArr) should not be empty"
@@ -235,7 +236,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) public payable onlyNoPaused {
+    ) external payable override onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(numMinted[_cid] < _cap, "Reached cap limit");
         require(
@@ -261,7 +262,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) public payable onlyNoPaused {
+    ) external payable override onlyNoPaused {
         require(
             _dummyIdArr.length > 0,
             "Array(_dummyIdArr) should not be empty"
@@ -313,7 +314,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) public payable onlyNoPaused {
+    ) external payable override onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(
             _verify(
