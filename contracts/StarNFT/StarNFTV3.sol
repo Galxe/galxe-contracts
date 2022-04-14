@@ -118,7 +118,7 @@ contract StarNFTV3 is ERC721, IStarNFT, Ownable {
     /**
      * @dev Get Star NFT CID
      */
-    function cid(uint256 tokenId) public view returns (uint256) {
+    function cid(uint256 tokenId) public view override returns (uint256) {
         return _cids[tokenId];
     }
 

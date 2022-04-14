@@ -188,16 +188,6 @@ contract SpaceStationV2 is EIP712 {
         emit EventClaim(_cid, _dummyId, nftID, _starNFT, _mintTo);
     }
 
-    function claim(
-        uint256 _cid,
-        IStarNFT _starNFT,
-        uint256 _dummyId,
-        uint256 _powah,
-        bytes calldata _signature
-    ) external payable onlyNoPaused {
-        claim(_cid, _starNFT, _dummyId, _powah, msg.sender, _signature);
-    }
-
     function claimBatch(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -237,16 +227,6 @@ contract SpaceStationV2 is EIP712 {
         emit EventClaimBatch(_cid, _dummyIdArr, nftIdArr, _starNFT, _mintTo);
     }
 
-    function claimBatch(
-        uint256 _cid,
-        IStarNFT _starNFT,
-        uint256[] calldata _dummyIdArr,
-        uint256[] calldata _powahArr,
-        bytes calldata _signature
-    ) external payable onlyNoPaused {
-        claimBatch(_cid, _starNFT, _dummyIdArr, _powahArr, msg.sender, _signature);
-    }
-
     function claimCapped(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -271,17 +251,6 @@ contract SpaceStationV2 is EIP712 {
         uint256 nftID = _starNFT.mint(_mintTo, _powah);
         uint256 minted = numMinted[_cid];
         emit EventClaimCapped(_cid, _dummyId, nftID, _starNFT, _mintTo, minted, _cap);
-    }
-
-    function claimCapped(
-        uint256 _cid,
-        IStarNFT _starNFT,
-        uint256 _dummyId,
-        uint256 _powah,
-        uint256 _cap,
-        bytes calldata _signature
-    ) external payable onlyNoPaused {
-        claimCapped(_cid, _starNFT, _dummyId, _powah, _cap, msg.sender, _signature);
     }
 
     function claimBatchCapped(
@@ -336,17 +305,6 @@ contract SpaceStationV2 is EIP712 {
         emit EventClaimBatchCapped(_cid, _dummyIdArr, nftIdArr, _starNFT, _mintTo, minted, _cap);
     }
 
-    function claimBatchCapped(
-        uint256 _cid,
-        IStarNFT _starNFT,
-        uint256[] calldata _dummyIdArr,
-        uint256[] calldata _powahArr,
-        uint256 _cap,
-        bytes calldata _signature
-    ) external payable onlyNoPaused {
-        claimBatchCapped(_cid, _starNFT, _dummyIdArr, _powahArr, _cap, msg.sender, _signature);
-    }
-
     function forge(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -382,17 +340,6 @@ contract SpaceStationV2 is EIP712 {
         _payFees(_cid, 1);
         uint256 nftID = _starNFT.mint(_mintTo, _powah);
         emit EventForge(_cid, _dummyId, nftID, _starNFT, _mintTo);
-    }
-
-    function forge(
-        uint256 _cid,
-        IStarNFT _starNFT,
-        uint256[] calldata _nftIDs,
-        uint256 _dummyId,
-        uint256 _powah,
-        bytes calldata _signature
-    ) external payable onlyNoPaused {
-        forge(_cid, _starNFT, _nftIDs, _dummyId, _powah, msg.sender, _signature);
     }
 
     receive() external payable {
@@ -472,7 +419,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _dummyId,
         uint256 _powah,
         address _account
-    ) public view returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
@@ -497,7 +444,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _powah,
         uint256 _cap,
         address _account
-    ) public view returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
@@ -522,7 +469,7 @@ contract SpaceStationV2 is EIP712 {
         uint256[] calldata _dummyIdArr,
         uint256[] calldata _powahArr,
         address _account
-    ) public view returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
@@ -547,7 +494,7 @@ contract SpaceStationV2 is EIP712 {
         uint256[] calldata _powahArr,
         uint256 _cap,
         address _account
-    ) public view returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
@@ -566,7 +513,6 @@ contract SpaceStationV2 is EIP712 {
             );
     }
 
-    // todo: change to internal on PRD
     function _hashForge(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -574,7 +520,7 @@ contract SpaceStationV2 is EIP712 {
         uint256 _dummyId,
         uint256 _powah,
         address _account
-    ) public view returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
@@ -593,9 +539,8 @@ contract SpaceStationV2 is EIP712 {
             );
     }
 
-    // todo: change to internal on PRD
     function _verify(bytes32 hash, bytes calldata signature)
-        public
+        private
         view
         returns (bool)
     {

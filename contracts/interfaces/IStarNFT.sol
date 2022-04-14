@@ -30,6 +30,7 @@ interface IStarNFT {
 
     function isOwnerOf(address, uint256) external view returns (bool);
     function getNumMinted() external view returns (uint256);
+    function cid(uint256) external view returns (uint256);
     // mint
     function mint(address account, uint256 powah) external returns (uint256);
     function mintBatch(address account, uint256 amount, uint256[] calldata powahArr) external returns (uint256[] memory);
