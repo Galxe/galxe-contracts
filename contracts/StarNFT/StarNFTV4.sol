@@ -13,14 +13,14 @@
 */
 pragma solidity 0.7.6;
 
-import "../../zeppelin-solidity/contracts/token/ERC721/IERC721.sol";
-import "../../zeppelin-solidity//contracts/token/ERC721/IERC721Receiver.sol";
-import "../../zeppelin-solidity//contracts/token/ERC721/IERC721Metadata.sol";
-import "../../zeppelin-solidity//contracts/utils/Address.sol";
-import "../../zeppelin-solidity//contracts/utils/Strings.sol";
-import "../../zeppelin-solidity/contracts/access/Ownable.sol";
-import "../../zeppelin-solidity//contracts/introspection/ERC165.sol";
-import "../../interfaces/IStarNFT.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Metadata.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/introspection/ERC165.sol";
+import "../interfaces/IStarNFT.sol";
 
 /**
  * @dev Fork https://github.com/generalgalactic/ERC721S and implement IStarNFT interface
@@ -140,7 +140,7 @@ contract StarNFTV4 is Ownable, ERC165, IERC721, IERC721Metadata, IStarNFT {
     /**
      * @dev Get Star NFT CID.
      */
-    function cid(uint256 tokenId) public view returns (uint256) {
+    function cid(uint256 tokenId) public view override returns (uint256) {
         require(_exists(tokenId), "StarNFT: StarNFT does not exist");
         return _tokens[tokenId].cid;
     }
