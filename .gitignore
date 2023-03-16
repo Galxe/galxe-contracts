@@ -1,10 +1,11 @@
-node_modules
+build/
+node_modules/
+.DS_Store
+deployments/
+env/
 .env
-coverage
+bin/
+solc
+coverage/
 coverage.json
-typechain
-build
-
-#Hardhat files
-cache
-artifacts
+yarn-error.log

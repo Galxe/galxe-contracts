@@ -1,12 +1,25 @@
-import * as dotenv from "dotenv";
-
-import { HardhatUserConfig } from "hardhat/config";
+import { HardhatUserConfig, HttpNetworkUserConfig } from "hardhat/types";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
-import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "hardhat-gas-reporter";
+import "hardhat-deploy";
+import { ethers } from "ethers";
 
+import dotenv from "dotenv";
 dotenv.config();
+const {
+  DEPLOYER_PRIVATE_KEY,
+  ETHERSCAN_API_KEY,
+  ALCHEMY_KEY,
+  SPACE_BALANCE_OWNER,
+  SPACE_BALANCE_TREASURER,
+} = process.env;
+
+const sharedNetworkConfig: HttpNetworkUserConfig = {
+  accounts: [DEPLOYER_PRIVATE_KEY!],
+};
+const deployer = new ethers.Wallet(DEPLOYER_PRIVATE_KEY!);
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -21,7 +34,7 @@ const config: HardhatUserConfig = {
         },
       },
       {
-        version: "0.8.4",
+        version: "0.8.9",
         settings: {
           optimizer: {
             enabled: true,
@@ -32,68 +45,78 @@ const config: HardhatUserConfig = {
     ],
   },
   networks: {
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY || ""],
-    },
     // ethereum
     mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.MAINNET_PRIVATE_KEY || ""],
+      ...sharedNetworkConfig,
+      url: `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
+    },
+    goerli: {
+      ...sharedNetworkConfig,
+      url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+      chainId: 5,
     },
     // bsc
     bsc_testnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/bsc_testnet_chapel",
       chainId: 97,
-      accounts: [process.env.BSC_TESTNET_PRIVATE_KEY || ""],
     },
     bsc_mainnet: {
-      url: "https://bsc-dataseed.binance.org",
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/bsc",
       chainId: 56,
-      accounts: [process.env.BSC_MAINNET_PRIVATE_KEY || ""],
     },
     // polygon
     matic_testnet: {
-      url: "https://rpc-mumbai.matic.today", // replace it with your own
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/polygon_mumbai",
       chainId: 80001,
-      accounts: [process.env.MATIC_TESTNET_PRIVATE_KEY || ""],
     },
     matic_mainnet: {
-      url: "https://rpc-mainnet.maticvigil.com", // replace it with your own
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/polygon",
       chainId: 137,
-      accounts: [process.env.MATIC_MAINNET_PRIVATE_KEY || ""],
     },
     // avalanche
     avalanche_mainnet: {
+      ...sharedNetworkConfig,
       url: "https://api.avax-test.network/ext/bc/C/rpc",
       chainId: 43113,
-      accounts: [process.env.AVALANCHE_MAINNET_PRIVATE_KEY || ""],
     },
     // fantom
     fantom_mainnet: {
+      ...sharedNetworkConfig,
       url: "https://rpc.ftm.tools/",
       chainId: 250,
-      accounts: [process.env.FANTOM_MAINNET_PRIVATE_KEY || ""],
     },
     // arbitrum
     arbitrum_mainnet: {
+      ...sharedNetworkConfig,
       url: "https://arb1.arbitrum.io/rpc",
       chainId: 42161,
-      accounts: [process.env.ARBITRUM_MAINNET_PRIVATE_KEY || ""],
     },
+  },
+  namedAccounts: {
+    // Shared Galxe deployer
+    deployer: deployer.address,
+
+    // SpaceBalance contract
+    spaceBalanceOwner: SPACE_BALANCE_OWNER || "",
+    spaceBalanceTreasurer: SPACE_BALANCE_TREASURER || "",
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: ETHERSCAN_API_KEY,
   },
   paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./build/cache",
-    artifacts: "./build/artifacts",
+    sources: "contracts",
+    deploy: "src/deploy",
+    tests: "test",
+    cache: "build/cache",
+    artifacts: "build/artifacts",
   },
 };
 
