@@ -1,21 +1,9 @@
-/*
-    Copyright 2022 Project Galaxy.
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-    SPDX-License-Identifier: Apache License, Version 2.0
-*/
+// SPDX-License-Identifier: Apache-2.0
 
 pragma solidity 0.7.6;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "openzeppelin-contracts-3.4/token/ERC721/ERC721.sol";
+import "openzeppelin-contracts-3.4/token/ERC721/IERC721.sol";
 import "../interfaces/IStarNFT.sol";
 
 contract StarNFTV3 is ERC721, IStarNFT, Ownable {
@@ -123,12 +111,10 @@ contract StarNFTV3 is ERC721, IStarNFT, Ownable {
     }
 
     /* ============ External Functions ============ */
-    function mint(address account, uint256 cid)
-        external
-        override
-        onlyMinter
-        returns (uint256)
-    {
+    function mint(
+        address account,
+        uint256 cid
+    ) external override onlyMinter returns (uint256) {
         _starCount++;
         uint256 sID = _starCount;
 
@@ -161,11 +147,10 @@ contract StarNFTV3 is ERC721, IStarNFT, Ownable {
         delete _cids[id];
     }
 
-    function burnBatch(address account, uint256[] calldata ids)
-        external
-        override
-        onlyMinter
-    {
+    function burnBatch(
+        address account,
+        uint256[] calldata ids
+    ) external override onlyMinter {
         for (uint256 i = 0; i < ids.length; i++) {
             require(
                 _isApprovedOrOwner(_msgSender(), ids[i]),
@@ -177,12 +162,10 @@ contract StarNFTV3 is ERC721, IStarNFT, Ownable {
     }
 
     /* ============ External Getter Functions ============ */
-    function isOwnerOf(address account, uint256 id)
-        public
-        view
-        override
-        returns (bool)
-    {
+    function isOwnerOf(
+        address account,
+        uint256 id
+    ) public view override returns (bool) {
         address owner = ownerOf(id);
         return owner == account;
     }

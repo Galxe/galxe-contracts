@@ -1,12 +1,18 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 18",
+
   "compilerOptions": {
-    "target": "es2018",
+    "lib": ["es2022"],
     "module": "commonjs",
+    "target": "es2022",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "declaration": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
   },
   "include": ["./scripts", "./test", "./typechain"],
-  "files": ["./hardhat.config.ts"]
+  "files": ["./hardhat.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }
