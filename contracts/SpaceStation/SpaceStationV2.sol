@@ -174,7 +174,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) external payable override onlyNoPaused {
+    ) public payable onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(
             _verify(
@@ -189,6 +189,16 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         emit EventClaim(_cid, _dummyId, nftID, _starNFT, _mintTo);
     }
 
+    function claim(
+        uint256 _cid,
+        IStarNFT _starNFT,
+        uint256 _dummyId,
+        uint256 _powah,
+        bytes calldata _signature
+    ) external payable onlyNoPaused {
+        claim(_cid, _starNFT, _dummyId, _powah, msg.sender, _signature);
+    }
+
     function claimBatch(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -196,7 +206,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256[] calldata _powahArr,
         address _mintTo,
         bytes calldata _signature
-    ) external payable override onlyNoPaused {
+    ) public payable onlyNoPaused {
         require(
             _dummyIdArr.length > 0,
             "Array(_dummyIdArr) should not be empty"
@@ -228,6 +238,16 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         emit EventClaimBatch(_cid, _dummyIdArr, nftIdArr, _starNFT, _mintTo);
     }
 
+    function claimBatch(
+        uint256 _cid,
+        IStarNFT _starNFT,
+        uint256[] calldata _dummyIdArr,
+        uint256[] calldata _powahArr,
+        bytes calldata _signature
+    ) external payable onlyNoPaused {
+        claimBatch(_cid, _starNFT, _dummyIdArr, _powahArr, msg.sender, _signature);
+    }
+
     function claimCapped(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -236,7 +256,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) external payable override onlyNoPaused {
+    ) public payable onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(numMinted[_cid] < _cap, "Reached cap limit");
         require(
@@ -254,6 +274,17 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         emit EventClaimCapped(_cid, _dummyId, nftID, _starNFT, _mintTo, minted, _cap);
     }
 
+    function claimCapped(
+        uint256 _cid,
+        IStarNFT _starNFT,
+        uint256 _dummyId,
+        uint256 _powah,
+        uint256 _cap,
+        bytes calldata _signature
+    ) external payable onlyNoPaused {
+        claimCapped(_cid, _starNFT, _dummyId, _powah, _cap, msg.sender, _signature);
+    }
+
     function claimBatchCapped(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -262,7 +293,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _cap,
         address _mintTo,
         bytes calldata _signature
-    ) external payable override onlyNoPaused {
+    ) public payable onlyNoPaused {
         require(
             _dummyIdArr.length > 0,
             "Array(_dummyIdArr) should not be empty"
@@ -306,6 +337,17 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         emit EventClaimBatchCapped(_cid, _dummyIdArr, nftIdArr, _starNFT, _mintTo, minted, _cap);
     }
 
+    function claimBatchCapped(
+        uint256 _cid,
+        IStarNFT _starNFT,
+        uint256[] calldata _dummyIdArr,
+        uint256[] calldata _powahArr,
+        uint256 _cap,
+        bytes calldata _signature
+    ) external payable onlyNoPaused {
+        claimBatchCapped(_cid, _starNFT, _dummyIdArr, _powahArr, _cap, msg.sender, _signature);
+    }
+
     function forge(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -314,7 +356,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _powah,
         address _mintTo,
         bytes calldata _signature
-    ) external payable override onlyNoPaused {
+    ) public payable onlyNoPaused {
         require(!hasMinted[_dummyId], "Already minted");
         require(
             _verify(
@@ -341,6 +383,17 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         _payFees(_cid, 1);
         uint256 nftID = _starNFT.mint(_mintTo, _powah);
         emit EventForge(_cid, _dummyId, nftID, _starNFT, _mintTo);
+    }
+
+    function forge(
+        uint256 _cid,
+        IStarNFT _starNFT,
+        uint256[] calldata _nftIDs,
+        uint256 _dummyId,
+        uint256 _powah,
+        bytes calldata _signature
+    ) external payable onlyNoPaused {
+        forge(_cid, _starNFT, _nftIDs, _dummyId, _powah, msg.sender, _signature);
     }
 
     receive() external payable {
@@ -396,8 +449,8 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
      * PRIVILEGED MODULE FUNCTION. Function that update treasure manager address.
      */
     function updateTreasureManager(address payable newAddress)
-        external
-        onlyTreasuryManager
+    external
+    onlyTreasuryManager
     {
         require(
             newAddress != address(0),
@@ -420,22 +473,22 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _dummyId,
         uint256 _powah,
         address _account
-    ) private view returns (bytes32) {
+    ) public view returns (bytes32) {
         return
-            _hashTypedDataV4(
-                keccak256(
-                    abi.encode(
-                        keccak256(
-                            "NFT(uint256 cid,address starNFT,uint256 dummyId,uint256 powah,address account)"
-                        ),
-                        _cid,
-                        _starNFT,
-                        _dummyId,
-                        _powah,
-                        _account
-                    )
+        _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "NFT(uint256 cid,address starNFT,uint256 dummyId,uint256 powah,address account)"
+                    ),
+                    _cid,
+                    _starNFT,
+                    _dummyId,
+                    _powah,
+                    _account
                 )
-            );
+            )
+        );
     }
 
     function _hashCapped(
@@ -445,23 +498,23 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _powah,
         uint256 _cap,
         address _account
-    ) private view returns (bytes32) {
+    ) public view returns (bytes32) {
         return
-            _hashTypedDataV4(
-                keccak256(
-                    abi.encode(
-                        keccak256(
-                            "NFT(uint256 cid,address starNFT,uint256 dummyId,uint256 powah,uint256 cap,address account)"
-                        ),
-                        _cid,
-                        _starNFT,
-                        _dummyId,
-                        _powah,
-                        _cap,
-                        _account
-                    )
+        _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "NFT(uint256 cid,address starNFT,uint256 dummyId,uint256 powah,uint256 cap,address account)"
+                    ),
+                    _cid,
+                    _starNFT,
+                    _dummyId,
+                    _powah,
+                    _cap,
+                    _account
                 )
-            );
+            )
+        );
     }
 
     function _hashBatch(
@@ -470,22 +523,22 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256[] calldata _dummyIdArr,
         uint256[] calldata _powahArr,
         address _account
-    ) private view returns (bytes32) {
+    ) public view returns (bytes32) {
         return
-            _hashTypedDataV4(
-                keccak256(
-                    abi.encode(
-                        keccak256(
-                            "NFT(uint256 cid,address starNFT,uint256[] dummyIdArr,uint256[] powahArr,address account)"
-                        ),
-                        _cid,
-                        _starNFT,
-                        keccak256(abi.encodePacked(_dummyIdArr)),
-                        keccak256(abi.encodePacked(_powahArr)),
-                        _account
-                    )
+        _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "NFT(uint256 cid,address starNFT,uint256[] dummyIdArr,uint256[] powahArr,address account)"
+                    ),
+                    _cid,
+                    _starNFT,
+                    keccak256(abi.encodePacked(_dummyIdArr)),
+                    keccak256(abi.encodePacked(_powahArr)),
+                    _account
                 )
-            );
+            )
+        );
     }
 
     function _hashBatchCapped(
@@ -495,25 +548,26 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256[] calldata _powahArr,
         uint256 _cap,
         address _account
-    ) private view returns (bytes32) {
+    ) public view returns (bytes32) {
         return
-            _hashTypedDataV4(
-                keccak256(
-                    abi.encode(
-                        keccak256(
-                            "NFT(uint256 cid,address starNFT,uint256[] dummyIdArr,uint256[] powahArr,uint256 cap,address account)"
-                        ),
-                        _cid,
-                        _starNFT,
-                        keccak256(abi.encodePacked(_dummyIdArr)),
-                        keccak256(abi.encodePacked(_powahArr)),
-                        _cap,
-                        _account
-                    )
+        _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "NFT(uint256 cid,address starNFT,uint256[] dummyIdArr,uint256[] powahArr,uint256 cap,address account)"
+                    ),
+                    _cid,
+                    _starNFT,
+                    keccak256(abi.encodePacked(_dummyIdArr)),
+                    keccak256(abi.encodePacked(_powahArr)),
+                    _cap,
+                    _account
                 )
-            );
+            )
+        );
     }
 
+    // todo: change to internal on PRD
     function _hashForge(
         uint256 _cid,
         IStarNFT _starNFT,
@@ -521,29 +575,30 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
         uint256 _dummyId,
         uint256 _powah,
         address _account
-    ) private view returns (bytes32) {
+    ) public view returns (bytes32) {
         return
-            _hashTypedDataV4(
-                keccak256(
-                    abi.encode(
-                        keccak256(
-                            "NFT(uint256 cid,address starNFT,uint256[] nftIDs,uint256 dummyId,uint256 powah,address account)"
-                        ),
-                        _cid,
-                        _starNFT,
-                        keccak256(abi.encodePacked(_nftIDs)),
-                        _dummyId,
-                        _powah,
-                        _account
-                    )
+        _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "NFT(uint256 cid,address starNFT,uint256[] nftIDs,uint256 dummyId,uint256 powah,address account)"
+                    ),
+                    _cid,
+                    _starNFT,
+                    keccak256(abi.encodePacked(_nftIDs)),
+                    _dummyId,
+                    _powah,
+                    _account
                 )
-            );
+            )
+        );
     }
 
+    // todo: change to internal on PRD
     function _verify(bytes32 hash, bytes calldata signature)
-        private
-        view
-        returns (bool)
+    public
+    view
+    returns (bool)
     {
         return ECDSA.recover(hash, signature) == galaxy_signer;
     }
@@ -556,7 +611,7 @@ contract SpaceStationV2 is EIP712, ISpaceStation {
     ) private {
         require(
             (_erc20 == address(0) && _erc20Fee == 0) ||
-                (_erc20 != address(0) && _erc20Fee != 0),
+            (_erc20 != address(0) && _erc20Fee != 0),
             "Invalid erc20 fee requirement arguments"
         );
         campaignFeeConfigs[_cid] = CampaignFeeConfig(

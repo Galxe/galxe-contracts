@@ -1,16 +1,16 @@
 <br/>
 <p align="center">
-<a href="https://galaxy.eco" target="_blank">
-<img src="docs/logo.png" width="400" alt="Project Galaxy logo">
+<a href="https://galxe.com" target="_blank">
+<img src="docs/galxe-logo.png" width="400" alt="Galxe logo">
 </a>
 </p>
 <br/>
 
-[![Twitter](https://img.shields.io/twitter/follow/ProjectGalaxyHQ?color=blue&style=flat-square)](https://twitter.com/ProjectGalaxyHQ)
+[![Twitter](https://img.shields.io/twitter/follow/Galxe?style=social)](https://twitter.com/Galxe)
 [![Discord](https://img.shields.io/discord/824767871183355954?color=green&style=flat-square&logo=discord)](https://discordapp.com/invite/projectgalaxy)
 [![Telegram](https://img.shields.io/badge/Telegram-Follow-blue?style=flat-square&logo=telegram)](https://t.me/ProjectGalaxyHQ)
 
-# Project Galaxy Contracts
+# Galxe Contracts
 
 > This doc is still working in progress
 

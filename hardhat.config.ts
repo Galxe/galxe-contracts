@@ -5,6 +5,9 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "@matterlabs/hardhat-zksync-deploy";
+import "@matterlabs/hardhat-zksync-solc";
+import "@matterlabs/hardhat-zksync-verify";
 
 dotenv.config();
 
@@ -31,55 +34,29 @@ const config: HardhatUserConfig = {
       },
     ],
   },
+  zksolc: {
+    version: "1.3.8",
+    compilerSource: "binary",
+    settings: {},
+  },
   networks: {
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY || ""],
+    zkSyncTestnet: {
+      url: "https://testnet.era.zksync.dev",
+      ethNetwork: "https://testnet.era.zksync.dev",
+      zksync: true,
+      chainId: 280,
+      accounts: [process.env.PRIVATE_KEY || ""],
+      verifyURL:
+        "https://zksync2-testnet-explorer.zksync.dev/contract_verification",
     },
-    // ethereum
-    mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.MAINNET_PRIVATE_KEY || ""],
-    },
-    // bsc
-    bsc_testnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
-      chainId: 97,
-      accounts: [process.env.BSC_TESTNET_PRIVATE_KEY || ""],
-    },
-    bsc_mainnet: {
-      url: "https://bsc-dataseed.binance.org",
-      chainId: 56,
-      accounts: [process.env.BSC_MAINNET_PRIVATE_KEY || ""],
-    },
-    // polygon
-    matic_testnet: {
-      url: "https://rpc-mumbai.matic.today", // replace it with your own
-      chainId: 80001,
-      accounts: [process.env.MATIC_TESTNET_PRIVATE_KEY || ""],
-    },
-    matic_mainnet: {
-      url: "https://rpc-mainnet.maticvigil.com", // replace it with your own
-      chainId: 137,
-      accounts: [process.env.MATIC_MAINNET_PRIVATE_KEY || ""],
-    },
-    // avalanche
-    avalanche_mainnet: {
-      url: "https://api.avax-test.network/ext/bc/C/rpc",
-      chainId: 43113,
-      accounts: [process.env.AVALANCHE_MAINNET_PRIVATE_KEY || ""],
-    },
-    // fantom
-    fantom_mainnet: {
-      url: "https://rpc.ftm.tools/",
-      chainId: 250,
-      accounts: [process.env.FANTOM_MAINNET_PRIVATE_KEY || ""],
-    },
-    // arbitrum
-    arbitrum_mainnet: {
-      url: "https://arb1.arbitrum.io/rpc",
-      chainId: 42161,
-      accounts: [process.env.ARBITRUM_MAINNET_PRIVATE_KEY || ""],
+    zkSyncMainnet: {
+      url: "https://mainnet.era.zksync.io",
+      ethNetwork: "https://mainnet.era.zksync.io",
+      zksync: true,
+      chainId: 324,
+      accounts: [process.env.PRIVATE_KEY || ""],
+      verifyURL:
+        "https://zksync2-mainnet-explorer.zksync.io/contract_verification",
     },
   },
   gasReporter: {

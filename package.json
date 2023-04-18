@@ -2,12 +2,15 @@
   "name": "hardhat-project",
   "scripts": {
     "compile": "hardhat compile",
-    "deploy:spacestation": "hardhat run scripts/deploy_spacestation.ts --network rinkeby",
-    "deploy:starnft": "hardhat run scripts/deploy_starnftfactory.ts --network rinkeby"
+    "deploy:spacestation": "hardhat deploy-zksync --script deploy_spacestation.ts",
+    "deploy:starnft": "hardhat deploy-zksync --script deploy_starnftfactory.ts"
   },
   "devDependencies": {
+    "@matterlabs/hardhat-zksync-deploy": "^0.6.3",
+    "@matterlabs/hardhat-zksync-solc": "^0.3.16",
+    "@matterlabs/hardhat-zksync-verify": "^0.1.5",
     "@nomiclabs/hardhat-ethers": "^2.0.0",
-    "@nomiclabs/hardhat-etherscan": "^3.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
@@ -24,12 +27,13 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
     "ethereum-waffle": "^3.0.0",
-    "ethers": "^5.0.0",
-    "hardhat": "^2.9.3",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.14.0",
     "hardhat-gas-reporter": "^1.0.4",
     "solidity-coverage": "^0.7.16",
-    "ts-node": "^10.1.0",
-    "typescript": "^4.5.2"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4",
+    "zksync-web3": "^0.14.3"
   },
   "dependencies": {
     "@openzeppelin/contracts": "3.4.2"
