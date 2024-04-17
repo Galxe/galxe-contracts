@@ -14,8 +14,8 @@
 
 pragma solidity 0.7.6;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin-v3/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin-v3/contracts/access/Ownable.sol";
 import "../interfaces/IStarNFT.sol";
 
 contract StarNFTV3 is ERC721, IStarNFT, Ownable {

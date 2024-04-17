@@ -18,11 +18,11 @@
 
 pragma solidity 0.7.6;
 
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {EIP712} from "@openzeppelin/contracts/drafts/EIP712.sol";
-import {ECDSA} from "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import {Address} from "@openzeppelin-v3/contracts/utils/Address.sol";
+import {SafeMath} from "@openzeppelin-v3/contracts/math/SafeMath.sol";
+import {IERC20} from "@openzeppelin-v3/contracts/token/ERC20/IERC20.sol";
+import {EIP712} from "@openzeppelin-v3/contracts/drafts/EIP712.sol";
+import {ECDSA} from "@openzeppelin-v3/contracts/cryptography/ECDSA.sol";
 import {ISpaceStation} from "../interfaces/ISpaceStation.sol";
 import {IStarNFT} from "../interfaces/IStarNFT.sol";
 
