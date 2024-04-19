@@ -18,9 +18,9 @@
 
 pragma solidity 0.7.6;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/cryptography/MerkleProof.sol";
+import "@openzeppelin-v3/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin-v3/contracts/access/Ownable.sol";
+import "@openzeppelin-v3/contracts/cryptography/MerkleProof.sol";
 import "../interfaces/IMerkleDistributor.sol";
 
 contract MerkleDistributor is IMerkleDistributor, Ownable {
