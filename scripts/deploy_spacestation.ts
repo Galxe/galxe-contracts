@@ -27,9 +27,9 @@ async function main() {
     treasureManager
   );
 
-  await sss.deployed();
+  await sss.deployed(0xC1D78db0F5d00110935df8679a9b61dA759F1E04);
 
-  console.log("SpaceStationV2 deployed to:", sss.address);
+  console.log("SpaceStationV2 deployed to:", sss.0xC1D78db0F5d00110935df8679a9b61dA759F1E04);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
